@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Working.Context;
 
 namespace Working
 {
@@ -23,8 +25,16 @@ namespace Working
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // 数据库连接字符串
-            var connectionString= Configuration.GetConnectionString("DefaultConnection");
+            #region 配置数据库连接
+
+            //获取数据库连接字符串
+            string connectionString = Configuration.GetSection("ConnectionString").GetSection("DbConnection").Value;
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            #endregion
             services.AddControllersWithViews();
         }
 
