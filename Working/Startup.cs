@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +37,22 @@ namespace Working
             });
 
             #endregion
+
+            // 认证
+            services.AddAuthentication(opts => 
+            {
+                opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,opt=> 
+            {
+                // 设置Cookie信息
+                opt.LoginPath = new PathString("/Login/Index");
+                // 没有访问Action的权限，设置拒绝页面
+                opt.AccessDeniedPath = new PathString("/home/error");
+                // 登出
+                opt.LogoutPath = new PathString("/Login/Index");
+                // Cookie存放路径
+                opt.Cookie.Path = "/";
+            });
             services.AddControllersWithViews();
         }
 
@@ -56,13 +74,17 @@ namespace Working
 
             app.UseRouting();
 
+            // 认证中间件
+            app.UseAuthentication();
+
+            // 授权中间件
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Test}/{id?}");
             });
         }
     }

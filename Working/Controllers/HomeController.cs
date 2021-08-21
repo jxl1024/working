@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ using Working.Models;
 
 namespace Working.Controllers
 {
+    [Authorize(Roles = "Employee，Leader，Manager")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
