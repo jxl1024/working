@@ -16,6 +16,7 @@
         <input type="text" name="userName"/>
         <input type="password" name="password" />
         <input type="submit" value="登录" />
+        <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
         <span style="color:red">@ViewBag.error</span>
     </form>
 </body>

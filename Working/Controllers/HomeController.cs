@@ -13,7 +13,7 @@ using Working.Models;
 
 namespace Working.Controllers
 {
-    [Authorize(Roles = "Employee，Leader，Manager")]
+    //[Authorize(Roles = "Employee，Leader，Manager")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

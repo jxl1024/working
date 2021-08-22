@@ -23,14 +23,19 @@ namespace Working.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string returnUrl)
         {
+            // 没有通过验证，将访问的网址保留下来
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                ViewBag.returnUrl = returnUrl;
+            }
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Index(string userName,string password)
+        public IActionResult Index(string userName,string password, string returnUrl)
         {
             // 判断用户名和密码
             if(userName=="admin" && password=="123456")
@@ -47,8 +52,8 @@ namespace Working.Controllers
                 // 服务端把加密内容解密出来进行验证，有没有权限
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
                     new ClaimsPrincipal(new ClaimsIdentity(claims)));
-                // 调整到主页
-                return new RedirectResult("/home/index");
+                // 如果returnUrl为空，则跳转到主页，否则跳转到原来访问的页面
+                return new RedirectResult(string.IsNullOrEmpty(returnUrl)? "/home/index":returnUrl);
             }
             else
             {
