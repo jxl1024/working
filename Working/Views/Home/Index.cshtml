@@ -1,9 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@*@{
+        ViewData["Title"] = "Home Page";
+    }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>@ViewData["Roles"]</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <p>@ViewData["Roles"]</p>
+    </div>*@
+
+@{
+    ViewData["Title"] = "工作记录";
+}
+@section css{
+    <style>
+        .main {
+            height: 600px;
+            width: 100%;
+            background: url(/images/back.jpg) center bottom no-repeat;
+            position: relative;
+        }
+    </style>
+}
+<div class="main"></div>
+

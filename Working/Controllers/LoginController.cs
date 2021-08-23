@@ -42,7 +42,7 @@ namespace Working.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Index(string userName,string password, string returnUrl)
+        public IActionResult Login(string userName,string password, string returnUrl)
         {
             // 判断用户名和密码
             if(userName=="admin" && password=="123456")
