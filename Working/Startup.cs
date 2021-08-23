@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Working.Context;
+using Working.Extensions;
 
 namespace Working
 {
@@ -51,6 +52,9 @@ namespace Working
                 //// Cookie存放路径
                 opt.Cookie.Path = "/";
             });
+
+            // 调用扩展方法注册仓储层
+            services.RegisterService();
             services.AddControllersWithViews();
         }
 

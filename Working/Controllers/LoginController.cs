@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Working.Models.APIModel;
+using Working.Models.DBModels;
+using Working.Repository;
 
 namespace Working.Controllers
 {
@@ -17,6 +20,14 @@ namespace Working.Controllers
     [Authorize(Roles = "Employee,Leader,Manager")]
     public class LoginController : Controller
     {
+        private readonly IUserRepository _userRepository;
+
+        public LoginController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+
         /// <summary>
         /// 登录页面可以匿名访问
         /// </summary>
@@ -42,23 +53,26 @@ namespace Working.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(string userName,string password, string returnUrl)
+        public IActionResult Index(string userName,string password, string returnUrl)
         {
-            // 判断用户名和密码
-            if(userName=="admin" && password=="123456")
+
+            UserRole userRole = _userRepository.Login(userName, password);
+
+            
+            if(null != userRole)
             {
                 var claims = new Claim[]
                 {
-                   new Claim(ClaimTypes.Role,"Leader"),
-                    new Claim(ClaimTypes.Name,"jxl"),
-                     new Claim(ClaimTypes.Sid,"1")
+                   new Claim(ClaimTypes.Role,userRole.RoleName),
+                    new Claim(ClaimTypes.Name,userRole.Name),
+                     new Claim(ClaimTypes.Sid,userRole.ID.ToString())
                 };
 
                 // 登录成功
                 // 会把claims通过一定的加密存储到Cookie中，第二次访问的时候把Cookie带到服务端
                 // 服务端把加密内容解密出来进行验证，有没有权限
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
-                    new ClaimsPrincipal(new ClaimsIdentity(claims,"claim")));
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(new ClaimsIdentity(claims, "claim")));
                 // 如果returnUrl为空，则跳转到主页，否则跳转到原来访问的页面
                 return new RedirectResult(string.IsNullOrEmpty(returnUrl) ? "/home/index" : returnUrl);
             }
@@ -67,7 +81,33 @@ namespace Working.Controllers
                 ViewBag.error = "用户名或密码错误";
                 return View();
             }
-           
+
+            #region 测试代码
+            //// 判断用户名和密码
+            //if(userName=="admin" && password=="123456")
+            //{
+            //    var claims = new Claim[]
+            //    {
+            //       new Claim(ClaimTypes.Role,"Leader"),
+            //        new Claim(ClaimTypes.Name,"jxl"),
+            //         new Claim(ClaimTypes.Sid,"1")
+            //    };
+
+            //    // 登录成功
+            //    // 会把claims通过一定的加密存储到Cookie中，第二次访问的时候把Cookie带到服务端
+            //    // 服务端把加密内容解密出来进行验证，有没有权限
+            //    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+            //        new ClaimsPrincipal(new ClaimsIdentity(claims,"claim")));
+            //    // 如果returnUrl为空，则跳转到主页，否则跳转到原来访问的页面
+            //    return new RedirectResult(string.IsNullOrEmpty(returnUrl) ? "/home/index" : returnUrl);
+            //}
+            //else
+            //{
+            //    ViewBag.error = "用户名或密码错误";
+            //    return View();
+            //} 
+            #endregion
+
         }
 
         /// <summary>

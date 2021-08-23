@@ -34,11 +34,11 @@ namespace Working.Controllers
         }
 
         /// <summary>
-        /// 重新设置的Employee,Manager角色才可以访问
+        /// 重新设置的Employee,Leader角色才可以访问
         /// 如果角色是Leader，不能访问该方法
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "Employee,Manager")]
+        [Authorize(Roles = "Employee,Leader")]
         public IActionResult Privacy()
         {
             return View();

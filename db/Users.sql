@@ -1,0 +1,22 @@
+INSERT INTO [dbo].[Users]
+           ([DepartID]
+           ,[Name]
+           ,[Password]
+           ,[RoleID]
+           ,[UserName]
+           ,[ID]
+           ,[CreateUser]
+           ,[CreateTime]
+           ,[UpdateUser]
+           ,[UpdateTime])
+     VALUES
+           (NEWID()
+           ,'管理员'
+           ,'123456'
+           ,'B3782C14-5B34-4A6B-AFFE-531A28DE1ACE'
+           ,'admin'
+           ,NEWID()
+           ,'admin'
+           ,GETDATE()
+           ,'admin'
+           ,GETDATE())

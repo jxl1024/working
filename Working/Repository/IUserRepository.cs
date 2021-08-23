@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Working.Models.APIModel;
 using Working.Models.DBModels;
 
 namespace Working.Repository
@@ -14,6 +15,6 @@ namespace Working.Repository
         /// <param name="userName">用户名</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        User Login(string userName, string password);
+        UserRole Login(string userName, string password);
     }
 }
