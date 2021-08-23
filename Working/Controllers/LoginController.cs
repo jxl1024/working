@@ -14,7 +14,7 @@ namespace Working.Controllers
     /// 根据角色设置权限
     /// 只有Employee，Leader，Manager这三个角色的权限才能访问
     /// </summary>
-    [Authorize(Roles = "Employee，Leader，Manager")]
+    [Authorize(Roles = "Employee,Leader,Manager")]
     public class LoginController : Controller
     {
         /// <summary>
@@ -33,6 +33,13 @@ namespace Working.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 可以匿名访问
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Index(string userName,string password, string returnUrl)
@@ -51,9 +58,9 @@ namespace Working.Controllers
                 // 会把claims通过一定的加密存储到Cookie中，第二次访问的时候把Cookie带到服务端
                 // 服务端把加密内容解密出来进行验证，有没有权限
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
-                    new ClaimsPrincipal(new ClaimsIdentity(claims)));
+                    new ClaimsPrincipal(new ClaimsIdentity(claims,"claim")));
                 // 如果returnUrl为空，则跳转到主页，否则跳转到原来访问的页面
-                return new RedirectResult(string.IsNullOrEmpty(returnUrl)? "/home/index":returnUrl);
+                return new RedirectResult(string.IsNullOrEmpty(returnUrl) ? "/home/index" : returnUrl);
             }
             else
             {
@@ -72,6 +79,12 @@ namespace Working.Controllers
         /// <returns></returns>
         [HttpGet]
         public IActionResult Test()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Error()
         {
             return View();
         }

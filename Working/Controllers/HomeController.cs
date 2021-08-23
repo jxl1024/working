@@ -13,7 +13,7 @@ using Working.Models;
 
 namespace Working.Controllers
 {
-    //[Authorize(Roles = "Employee，Leader，Manager")]
+    [Authorize(Roles = "Employee,Leader,Manager")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -33,6 +33,12 @@ namespace Working.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 重新设置的Employee,Manager角色才可以访问
+        /// 如果角色是Leader，不能访问该方法
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Employee,Manager")]
         public IActionResult Privacy()
         {
             return View();

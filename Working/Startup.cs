@@ -44,13 +44,11 @@ namespace Working
                 opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,opt=> 
             {
-                // 设置Cookie信息
+                //如果授权失败，就跳转到这个路径去中
                 opt.LoginPath = new PathString("/Login/Index");
                 // 没有访问Action的权限，设置拒绝页面
-                opt.AccessDeniedPath = new PathString("/home/error");
-                // 登出
-                opt.LogoutPath = new PathString("/Login/Index");
-                // Cookie存放路径
+                opt.AccessDeniedPath = new PathString("/Home/Error");
+                //// Cookie存放路径
                 opt.Cookie.Path = "/";
             });
             services.AddControllersWithViews();
@@ -84,7 +82,7 @@ namespace Working
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Test}/{id?}");
+                    pattern: "{controller=home}/{action=index}/{id?}");
             });
         }
     }
