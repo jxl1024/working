@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Working.Models.APIModel;
 using Working.Models.DBModels;
 using Working.Repository;
+using Working.Service;
 
 namespace Working.Controllers
 {
@@ -20,13 +21,20 @@ namespace Working.Controllers
     [Authorize(Roles = "Employee,Leader,Manager")]
     public class LoginController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        //private readonly IUserRepository _userRepository;
 
-        public LoginController(IUserRepository userRepository)
+        //public LoginController(IUserRepository userRepository)
+        //{
+        //    _userRepository = userRepository;
+        //}
+
+
+        private readonly IUserService  _userService;
+
+        public LoginController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
-
 
         /// <summary>
         /// 登录页面可以匿名访问
@@ -56,7 +64,7 @@ namespace Working.Controllers
         public IActionResult Index(string userName,string password, string returnUrl)
         {
 
-            UserRole userRole = _userRepository.Login(userName, password);
+            UserRole userRole = _userService.Login(userName, password);
 
             
             if(null != userRole)
