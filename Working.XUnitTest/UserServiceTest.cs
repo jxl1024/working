@@ -13,6 +13,7 @@ namespace Working.XUnitTest
 {
     public class UserServiceTest
     {
+        [Trait("用户服务层", "UserService")]
         [Fact]
         public void Login_Default_Return()
         {

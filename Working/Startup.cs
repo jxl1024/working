@@ -55,7 +55,7 @@ namespace Working
 
             // 调用扩展方法注册仓储层
             services.RegisterService();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

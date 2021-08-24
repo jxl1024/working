@@ -87,7 +87,7 @@ namespace Working.Controllers
             else
             {
                 ViewBag.error = "用户名或密码错误";
-                return View();
+                return new ViewResult();
             }
 
             #region 测试代码

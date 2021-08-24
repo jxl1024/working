@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Working.XUnitTest
 {
+    [Trait("”√ªß≤÷¥¢≤„", "UserRepository")]
     public class UserRepositoryTest
     {
         [Fact]

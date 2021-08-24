@@ -14,6 +14,7 @@ namespace Working.Extensions
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         }
     }
 }
